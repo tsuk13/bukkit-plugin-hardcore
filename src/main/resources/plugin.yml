@@ -1,0 +1,16 @@
+# This is a sample plugin.yml
+# For more infomration refer to http://wiki.bukkit.org/Plugin_YAML
+main: edu.unca.twreese.Hardcore.Hardcore
+name: ${project.name}
+version: ${project.version}
+author: SampleAuthor
+description: ${project.description}
+commands:
+  Hardcore:
+    description: set the sample message
+    usage: /<command>
+    permission: Hardcore.*
+permissions:
+  Hardcore.*:
+    description: gives all permissions of the shufflePlugin
+    default: true
