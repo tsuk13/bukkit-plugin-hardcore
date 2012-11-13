@@ -3,6 +3,7 @@ package edu.unca.twreese.Hardcore;
 import java.util.Random;
 
 import org.bukkit.Location;
+import org.bukkit.block.Biome;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -29,15 +30,18 @@ public class HardcoreListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
     	if(!event.getPlayer().hasPlayedBefore()){
-    		Location loc = new Location(event.getPlayer().getWorld(), 0, 0, 0);
+    		Location loc = new Location(event.getPlayer().getWorld(), 0, 63, 0);
         	Random rnd = new Random();
-        	loc.setX(loc.getX() -(worldSize/2) + (rnd.nextDouble() * worldSize));
-        	loc.setZ(loc.getZ() - (worldSize/2)+ (rnd.nextDouble() * worldSize));
-        	loc.setY(event.getPlayer().getWorld().getHighestBlockYAt(loc));
-        	event.getPlayer().getWorld().loadChunk(loc.getChunk());
-        	while(!loc.getChunk().isLoaded()){
+        	boolean looking = true;
+        	while(looking){
+        		loc.setX(loc.getX() -(worldSize/2) + (rnd.nextDouble() * worldSize));
+        		loc.setZ(loc.getZ() - (worldSize/2)+ (rnd.nextDouble() * worldSize));
+        		loc.getChunk().load(true);
+        		loc.setY(event.getPlayer().getWorld().getHighestBlockYAt(loc));
+        		if(loc.getWorld().getBiome(loc.getBlockX(), loc.getBlockZ()).compareTo(Biome.OCEAN) != 0)
+        			looking = false;
         	}
-        	event.getPlayer().teleport(loc);
+        	event.getPlayer().teleport(loc.add(0, 2, 0));
     	}
     	event.getPlayer().sendMessage("This is a Hardcore Server.");
     	event.getPlayer().sendMessage("On death you will spawn somewhere random in a great distance.");
@@ -48,15 +52,18 @@ public class HardcoreListener implements Listener {
     
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event){
-    	Location loc = new Location(event.getPlayer().getWorld(), 0, 0, 0);
+    	Location loc = new Location(event.getPlayer().getWorld(), 0, 63, 0);
     	Random rnd = new Random();
-    	loc.setX(loc.getX()-(worldSize/2) + (rnd.nextDouble() * worldSize));
-    	loc.setZ(loc.getZ() - (worldSize/2) + (rnd.nextDouble() * worldSize));
-    	loc.setY(event.getPlayer().getWorld().getHighestBlockYAt(loc));
-    	event.getPlayer().getWorld().loadChunk(loc.getChunk());
-    	while(!loc.getChunk().isLoaded()){
+    	boolean looking = true;
+    	while(looking){
+    		loc.setX(loc.getX() -(worldSize/2) + (rnd.nextDouble() * worldSize));
+    		loc.setZ(loc.getZ() - (worldSize/2)+ (rnd.nextDouble() * worldSize));
+    		loc.getChunk().load(true);
+    		loc.setY(event.getPlayer().getWorld().getHighestBlockYAt(loc));
+    		if(loc.getWorld().getBiome(loc.getBlockX(), loc.getBlockZ()).compareTo(Biome.OCEAN) != 0)
+    			looking = false;
     	}
-    	event.setRespawnLocation(loc);
+    	event.setRespawnLocation(loc.add(0, 2, 0));
     }
     
 }
