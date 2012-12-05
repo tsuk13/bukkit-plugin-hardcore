@@ -2,7 +2,7 @@
 # For more infomration refer to http://wiki.bukkit.org/Plugin_YAML
 main: edu.unca.twreese.Hardcore.Hardcore
 name: Hardcore
-version: 0.0.1-SNAPSHOT
+version: 0.0.2-SNAPSHOT
 author: SampleAuthor
 description: This is a sample plugin for CraftBukkit
 commands:
