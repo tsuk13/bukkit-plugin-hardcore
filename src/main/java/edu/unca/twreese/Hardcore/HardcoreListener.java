@@ -15,10 +15,10 @@ import org.bukkit.event.server.PluginEnableEvent;
  * This is a sample event listener
  */
 public class HardcoreListener implements Listener {
-    @SuppressWarnings("unused")
-	private final Hardcore plugin;
+    private final Hardcore plugin;
     private final int worldSize = 21550; //defines how many blocks a side of the square you are restricted you in this mod is
     private World world;
+    WeatherChange wet;
 
     /*
      * This listener needs to know about the plugin which it came from
@@ -29,15 +29,18 @@ public class HardcoreListener implements Listener {
         
         this.plugin = plugin;
         world = plugin.getServer().getWorld("world");
+        wet = new WeatherChange(plugin, "9f545d0dc34e7b2a");
     }
     
     @EventHandler
     public void onPluginEnable(PluginEnableEvent event){
     	event.getPlugin().getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new TimeChange(plugin), 0, 20);
+    	event.getPlugin().getServer().getScheduler().scheduleSyncRepeatingTask(plugin, wet, 0, 60);
     }
     
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
+    	wet.run();
     	if(!event.getPlayer().hasPlayedBefore()){
     		Location loc = new Location(world, 0, 63, 0);
         	Random rnd = new Random();
