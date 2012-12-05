@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.server.PluginEnableEvent;
 
 /*
  * This is a sample event listener
@@ -28,6 +29,11 @@ public class HardcoreListener implements Listener {
         
         this.plugin = plugin;
         world = plugin.getServer().getWorld("world");
+    }
+    
+    @EventHandler
+    public void onPluginEnable(PluginEnableEvent event){
+    	event.getPlugin().getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new TimeChange(plugin), 0, 20);
     }
     
     @EventHandler
